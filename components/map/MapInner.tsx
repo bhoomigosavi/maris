@@ -8,7 +8,6 @@ import { SpillLayer } from './SpillLayer';
 import { VesselLayer } from './VesselLayer';
 import { TrajectoryLayer } from './TrajectoryLayer';
 import { CoastalZoneLayer } from './CoastalZoneLayer';
-import GoogleMutantLayer from './GoogleMutantLayer';
 
 interface MapInnerProps {
   spills: OilSpill[];
@@ -71,9 +70,6 @@ export const MapInner: React.FC<MapInnerProps> = ({
   const defaultCenter: [number, number] = [17.5, 78.0];
   const defaultZoom = 5;
 
-  const rawKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
-  const hasGoogleKey = Boolean(rawKey && rawKey !== 'your_google_maps_api_key_here');
-
   return (
     <div className="w-full h-full relative">
       <MapContainer
@@ -86,20 +82,19 @@ export const MapInner: React.FC<MapInnerProps> = ({
         className="w-full h-full z-0"
       >
         {/* 
-          Basemap Layer:
-          Uses Google Maps JS API with dark tactical styling via GoogleMutant when API key is provided.
-          Falls back to CARTO Dark Matter free raster XYZ tiles if no key is configured.
+          Professional Black + Grey Geographic Atlas Basemap
+          Crisp charcoal ocean, bright silver land, and clear geographic reference labels.
         */}
-        {hasGoogleKey ? (
-          <GoogleMutantLayer type="roadmap" />
-        ) : (
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>'
-            subdomains="abcd"
-            maxZoom={20}
-          />
-        )}
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+          attribution="&copy; <a href=&quot;https://www.esri.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>Esri</a> &mdash; Esri, DeLorme, NAVTEQ"
+          maxZoom={16}
+        />
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"
+          attribution="&copy; Esri, DeLorme, NAVTEQ"
+          maxZoom={16}
+        />
 
         <MapController
           onCursorMove={onCursorMove}

@@ -74,6 +74,11 @@ html, body {
   z-index: 0;
 }
 
+/* Navy Blue & Dark Blue Maritime Command Basemap with Balanced Land Tone */
+.leaflet-tile-pane {
+  filter: brightness(1.38) contrast(1.45) sepia(0.85) hue-rotate(185deg) saturate(2.9);
+}
+
 /* Leaflet Attribution Styling */
 .leaflet-control-attribution {
   background: rgba(5, 15, 30, 0.65) !important;
